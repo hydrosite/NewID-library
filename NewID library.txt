@@ -28,5 +28,3 @@ function NewID.SetGui(value)
     end
 end
 
--- Example usage
-NewID.SetGui("New") -- This line triggers the GUI creation
