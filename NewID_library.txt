@@ -1,11 +1,11 @@
--- Create a new GUI
+-- NewID Library
 local NewID = {}
 NewID.Gui = {}
 
 function NewID.Gui:new()
     local ScreenGui = Instance.new("ScreenGui")
     local Frame = Instance.new("Frame")
-    
+
     -- Set properties for the ScreenGui
     ScreenGui.Name = "DraggableGUI"
     ScreenGui.ResetOnSpawn = false
