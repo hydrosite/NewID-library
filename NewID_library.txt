@@ -43,7 +43,6 @@ function NewID.Gui:new()
     loadingText.Visible = false -- Hide the text initially
     loadingText.Parent = loadingScreen
 
-\\
 
     -- Ball animation to roll to the center
     local targetPosition = UDim2.new(0.5, -25, 0.5, 0) -- Target position in the middle
@@ -54,6 +53,11 @@ function NewID.Gui:new()
     -- Transition to text
     ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.5, true) -- Shrink the ball
 
+    -- Show the loading text and shadow after the ball is gone
+    loadingText.Visible = true -- Show the loading text
+    loadingText:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true) -- Expand text
+    loadingText:TweenPosition(UDim2.new(0.5, -200, 0.5, -50), "Out", "Quad", 0.5, true) -- Center text
+    shadow.Visible = false -- Show shadow text
 
     wait(1) -- Wait for the text transition to finish
 
