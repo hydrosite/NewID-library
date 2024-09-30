@@ -10,15 +10,20 @@ function NewID.Gui:new()
     -- Create the ball
     local ball = Instance.new("Frame")
     ball.Size = UDim2.new(0, 50, 0, 50)
-    ball.Position = UDim2.new(1, -25, 0.5, -25) -- Start from the right side
+    ball.Position = UDim2.new(0.5, -25, 0.5, 200) -- Start below the center
     ball.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black color
     ball.AnchorPoint = Vector2.new(0.5, 0.5)
     ball.Parent = loadingScreen
 
+    -- Create a UICorner to make the ball circular
+    local uicorner = Instance.new("UICorner")
+    uicorner.CornerRadius = UDim.new(0.5, 0) -- Set corner radius to half the size to make it a circle
+    uicorner.Parent = ball
+
     -- Create the loading text
     local loadingText = Instance.new("TextLabel")
-    loadingText.Size = UDim2.new(0, 600, 0, 100) -- Wider text
-    loadingText.Position = UDim2.new(0.5, -300, 0.5, -50) -- Adjusted position for wider text
+    loadingText.Size = UDim2.new(0, 400, 0, 100)
+    loadingText.Position = UDim2.new(0.5, -200, 0.5, -50)
     loadingText.Text = "NewID"
     loadingText.TextColor3 = Color3.fromRGB(255, 165, 0) -- Dark Orange color
     loadingText.Font = Enum.Font.Creepster -- Set to Creepster font
@@ -27,24 +32,19 @@ function NewID.Gui:new()
     loadingText.Visible = false -- Hide the text initially
     loadingText.Parent = loadingScreen
 
-    -- Create the sound effect
-    local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://507771019" -- Sound ID for rolling sound
-    sound.Parent = ball
-
     -- Ball animation to roll to the center
-    local targetPosition = UDim2.new(0.5, -25, 0.5, -25) -- Target position in the center
-    ball:TweenPosition(targetPosition, "Out", "Quad", 1, true)
-    sound:Play() -- Play sound effect
+    local targetPosition = UDim2.new(0.5, -25, 0.5, -25)
+    ball:TweenPosition(targetPosition, "Out", "Bounce", 1, true)
     
     wait(1) -- Wait for the ball to reach the center
 
     -- Transition to text
     ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.5, true) -- Shrink the ball
     loadingText.Visible = true -- Show the loading text
-    loadingText:TweenPosition(UDim2.new(0.5, -300, 0.5, -50), "Out", "Quad", 0.5, true) -- Center text
+    loadingText:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true) -- Expand text
+    loadingText:TweenPosition(UDim2.new(0.5, -200, 0.5, -50), "Out", "Quad", 0.5, true) -- Center text
 
-    wait(0.5) -- Wait for the text transition to finish
+    wait(1) -- Wait for the text transition to finish
 
     -- Create the main GUI
     local ScreenGui = Instance.new("ScreenGui")
@@ -62,6 +62,7 @@ function NewID.Gui:new()
 
     -- Draggable functionality
     local dragToggle = nil
+    local dragSpeed = 0.2
     local dragStart = nil
     local startPos = nil
 
