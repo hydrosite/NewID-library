@@ -26,99 +26,34 @@ function NewID.Gui:new()
     letterN.Position = UDim2.new(0, 0, 0, 0) -- Center in the ball
     letterN.Text = "N"
     letterN.TextColor3 = Color3.fromRGB(255, 87, 51) -- White color
-    letterN.Font = Enum.Font.Creepster -- Creepster font
+    letterN.Font = Enum.Font.Creepster -- Bold font
     letterN.TextScaled = true
     letterN.BackgroundTransparency = 1
     letterN.Parent = ball
 
-   local G2L = {}
+    -- Create the loading text for "New"
+    local loadingTextNew = Instance.new("TextLabel")
+    loadingTextNew.Size = UDim2.new(0, 100, 0, 100) -- Adjusted width for "New"
+    loadingTextNew.Position = UDim2.new(0.5, -100, 0.5, -50) -- Center the text above the ball
+    loadingTextNew.Text = "New"
+    loadingTextNew.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black color for "New"
+    loadingTextNew.Font = Enum.Font.Creepster -- Creepster font
+    loadingTextNew.TextScaled = true
+    loadingTextNew.BackgroundTransparency = 1
+    loadingTextNew.Visible = false -- Hide the text initially
+    loadingTextNew.Parent = loadingScreen
 
--- StarterGui.ScreenGui
-G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
-G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling
-
--- StarterGui.ScreenGui.Frame
-G2L["2"] = Instance.new("Frame", G2L["1"])
-G2L["2"]["BorderSizePixel"] = 0
-G2L["2"]["BackgroundColor3"] = Color3.fromRGB(117, 0, 3)
-G2L["2"]["Size"] = UDim2.new(0, 209, 0, 100)
-G2L["2"]["Position"] = UDim2.new(0.34382, 0, 0.30769, 0)
-G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-
--- StarterGui.ScreenGui.Frame.TextLabel for "New"
-G2L["3"] = Instance.new("TextLabel", G2L["2"])
-G2L["3"]["BorderSizePixel"] = 0
-G2L["3"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-G2L["3"]["TextSize"] = 50
-G2L["3"]["FontFace"] = Font.new([[rbxasset://fonts/families/Creepster.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-G2L["3"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
-G2L["3"]["BackgroundTransparency"] = 1
-G2L["3"]["Size"] = UDim2.new(0, 24, 0, 34)
-G2L["3"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-G2L["3"]["Text"] = "New"
-G2L["3"]["Position"] = UDim2.new(0.34262, 0, 0.32407, 0)
-
--- StarterGui.ScreenGui.Frame.TextLabel for "ID"
-G2L["4"] = Instance.new("TextLabel", G2L["2"])
-G2L["4"]["BorderSizePixel"] = 0
-G2L["4"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-G2L["4"]["TextSize"] = 50
-G2L["4"]["FontFace"] = Font.new([[rbxasset://fonts/families/Creepster.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-G2L["4"]["TextColor3"] = Color3.fromRGB(255, 88, 52)
-G2L["4"]["BackgroundTransparency"] = 1
-G2L["4"]["Size"] = UDim2.new(0, 26, 0, 34)
-G2L["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-G2L["4"]["Text"] = "ID"
-G2L["4"]["Position"] = UDim2.new(0.58986, 0, 0.32407, 0)
-
--- StarterGui.ScreenGui.Frame.UICorner
-G2L["5"] = Instance.new("UICorner", G2L["2"])
-
--- StarterGui.ScreenGui.Frame.UIGradient
-G2L["6"] = Instance.new("UIGradient", G2L["2"])
-G2L["6"]["Color"] = ColorSequence.new{
-    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(167, 0, 0)),
-    ColorSequenceKeypoint.new(0.496, Color3.fromRGB(137, 0, 0)),
-    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(92, 92, 92))
-}
-
--- Function to create and animate the loading screen
-local function createLoadingScreen()
-    local loadingScreen = G2L["1"]
-
-    -- Ball for animation
-    local ball = Instance.new("Frame")
-    ball.Size = UDim2.new(0, 50, 0, 50)
-    ball.Position = UDim2.new(1, -25, 0.5, 0) -- Start from the right side
-    ball.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    ball.AnchorPoint = Vector2.new(0.5, 0.5)
-    ball.Parent = loadingScreen
-
-    -- UICorner to make the ball circular
-    local uicorner = Instance.new("UICorner")
-    uicorner.CornerRadius = UDim.new(0.5, 0) -- Circular ball
-    uicorner.Parent = ball
-
-    -- Ball animation to roll to the center
-    local targetPosition = UDim2.new(0.5, -25, 0.5, 0) -- Target position in the middle
-    ball:TweenPosition(targetPosition, "Out", "Bounce", 1, true)
-
-    wait(1) -- Wait for the ball to reach the center
-
-    -- Transition to hide the loading screen
-    ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.5, true) -- Shrink the ball
-
-    -- Wait for the ball to shrink completely
-    wait(0.5)
-
-    -- Remove the loading screen after the animation
-    loadingScreen:Destroy()
-end
-
-createLoadingScreen()
-
-return G2L["1"], require
-
+    -- Create the loading text for "ID"
+    local loadingTextID = Instance.new("TextLabel")
+    loadingTextID.Size = UDim2.new(0, 100, 0, 100) -- Adjusted width for "ID"
+    loadingTextID.Position = UDim2.new(0.5, 0, 0.5, -50) -- Center "ID" next to "New"
+    loadingTextID.Text = "ID"
+    loadingTextID.TextColor3 = Color3.fromRGB(255, 140, 0) -- Dark Orange color for "ID"
+    loadingTextID.Font = Enum.Font.Creepster -- Creepster font
+    loadingTextID.TextScaled = true
+    loadingTextID.BackgroundTransparency = 1
+    loadingTextID.Visible = false -- Hide the text initially
+    loadingTextID.Parent = loadingScreen
 
     -- Ball animation to roll to the center
     local targetPosition = UDim2.new(0.5, -25, 0.5, 0) -- Target position in the middle
@@ -129,16 +64,18 @@ return G2L["1"], require
     -- Transition to text
     ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.5, true) -- Shrink the ball
 
+    -- Wait for the ball to shrink completely
+    wait(0.5)
+
     -- Show the loading text after the ball is gone
     loadingTextNew.Visible = true -- Show the loading text for "New"
     loadingTextID.Visible = true -- Show the loading text for "ID"
 
-    -- Expand the text labels
-    loadingTextNew:TweenSize(UDim2.new(0, 100, 0, 100), "Out", "Quad", 0.5, true) -- Expand "New"
-    loadingTextNew:TweenPosition(UDim2.new(0.5, -100, 0.5, -50), "Out", "Quad", 0.5, true) -- Center "New"
+    loadingTextNew:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true) -- Expand text for "New"
+    loadingTextNew:TweenPosition(UDim2.new(0.5, -200, 0.5, -50), "Out", "Quad", 0.5, true) -- Center text for "New"
 
-    loadingTextID:TweenSize(UDim2.new(0, 100, 0, 100), "Out", "Quad", 0.5, true) -- Expand "ID"
-    loadingTextID:TweenPosition(UDim2.new(0.5, 0, 0.5, -50), "Out", "Quad", 0.5, true) -- Center "ID" next to "New"
+    loadingTextID:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true) -- Expand text for "ID"
+    loadingTextID:TweenPosition(UDim2.new(0.5, -200, 0.5, 10), "Out", "Quad", 0.5, true) -- Center text for "ID"
 
     wait(1) -- Wait for the text transition to finish
 
