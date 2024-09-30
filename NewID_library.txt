@@ -9,7 +9,7 @@ function NewID.Gui:new()
 
     -- Create the ball
     local ball = Instance.new("Frame")
-    ball.Size = UDim2.new(0, 50, 0, 50)
+    ball.Size = UDim2.new(0, 50, 0, 50) -- Size of the ball
     ball.Position = UDim2.new(1, -25, 0.5, 0) -- Start from the right side of the screen
     ball.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black color
     ball.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -17,7 +17,7 @@ function NewID.Gui:new()
 
     -- Create a UICorner to make the ball circular
     local uicorner = Instance.new("UICorner")
-    uicorner.CornerRadius = UDim.new(0.5, 0) -- Set corner radius to half the size to make it a circle
+    uicorner.CornerRadius = UDim.new(0.5, 0) -- Make the ball circular
     uicorner.Parent = ball
 
     -- Create the loading text
