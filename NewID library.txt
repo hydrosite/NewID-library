@@ -1,8 +1,16 @@
 -- Create a variable to hold the NewID object
-local NewID = {}
+local NewID = {
+    Gui = nil -- Initialize Gui property
+}
 
--- Create a function to create the GUI
+-- Create a function to create the draggable GUI
 function NewID.CreateGui()
+    -- Check if the GUI already exists
+    if NewID.Gui then
+        warn("The GUI already exists. Please close it before creating a new one.")
+        return
+    end
+
     -- Create a new ScreenGui
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "BlackGui"
@@ -11,14 +19,53 @@ function NewID.CreateGui()
 
     -- Create a new Frame
     local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(1, 0, 1, 0) -- Fullscreen
+    frame.Size = UDim2.new(0, 200, 0, 100) -- Small size (200x100 pixels)
+    frame.Position = UDim2.new(0.5, -100, 0.5, -50) -- Centered on screen
     frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black color
     frame.Parent = screenGui
 
     -- Optional: Add a UICorner for rounded edges
     local uiCorner = Instance.new("UICorner")
-    uiCorner.CornerRadius = UDim.new(0, 10) -- Change the value for different corner roundness
+    uiCorner.CornerRadius = UDim.new(0, 10) -- Rounded edges
     uiCorner.Parent = frame
+
+    -- Make the frame draggable
+    local dragging
+    local dragInput
+    local startPos
+
+    local function update(input)
+        local delta = input.Position - startPos
+        frame.Position = UDim2.new(frame.Position.X.Scale, frame.Position.X.Offset + delta.X, frame.Position.Y.Scale, frame.Position.Y.Offset + delta.Y)
+    end
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            startPos = input.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
+
+    -- Set the NewID.Gui to the created ScreenGui
+    NewID.Gui = screenGui
 end
 
 -- Create a function to set the Gui
@@ -27,4 +74,3 @@ function NewID.SetGui(value)
         NewID.CreateGui()
     end
 end
-
