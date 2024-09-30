@@ -2,26 +2,43 @@ local NewID = {}
 NewID.Gui = {}
 
 function NewID.Gui:new()
-    -- Create the loading animation text
+    -- Create the loading screen
     local loadingScreen = Instance.new("ScreenGui")
     loadingScreen.Name = "LoadingScreen"
     loadingScreen.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
+    -- Create the ball
+    local ball = Instance.new("Frame")
+    ball.Size = UDim2.new(0, 50, 0, 50)
+    ball.Position = UDim2.new(0.5, -25, 0.5, 200) -- Start below the center
+    ball.BackgroundColor3 = Color3.fromRGB(255, 165, 0) -- Dark Orange color
+    ball.AnchorPoint = Vector2.new(0.5, 0.5)
+    ball.Parent = loadingScreen
+
+    -- Create the loading text
     local loadingText = Instance.new("TextLabel")
     loadingText.Size = UDim2.new(0, 400, 0, 100)
     loadingText.Position = UDim2.new(0.5, -200, 0.5, -50)
-    loadingText.Text = "NewID Library"
-    loadingText.TextColor3 = Color3.fromRGB(255, 215, 0) -- Gold color
+    loadingText.Text = "NewID"
+    loadingText.TextColor3 = Color3.fromRGB(255, 165, 0) -- Dark Orange color
+    loadingText.Font = Enum.Font.Creepster -- Set to Creepster font
     loadingText.TextScaled = true
     loadingText.BackgroundTransparency = 1
+    loadingText.Visible = false -- Hide the text initially
     loadingText.Parent = loadingScreen
 
-    -- Animation logic
-    loadingText:TweenPosition(UDim2.new(0.5, -200, 0.5, -200), "Out", "Quad", 1, true)
-    wait(1) -- Wait for the text to roll in
-    loadingText:TweenSize(UDim2.new(0, 500, 0, 150), "Out", "Quad", 1, true) -- Expand the text
+    -- Ball animation to roll to the center
+    ball:TweenPosition(UDim2.new(0.5, -25, 0.5, -25), "Out", "Bounce", 1, true)
+    
+    wait(1) -- Wait for the ball to reach the center
 
-    wait(1) -- Wait for the expansion animation to finish
+    -- Transition to text
+    ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.5, true) -- Shrink the ball
+    loadingText.Visible = true -- Show the loading text
+    loadingText:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true) -- Expand text
+    loadingText:TweenPosition(UDim2.new(0.5, -200, 0.5, -50), "Out", "Quad", 0.5, true) -- Center text
+
+    wait(1) -- Wait for the text transition to finish
 
     -- Create the main GUI
     local ScreenGui = Instance.new("ScreenGui")
