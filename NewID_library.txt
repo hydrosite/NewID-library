@@ -5,7 +5,7 @@ function NewID.Gui:new()
     -- Create the loading screen
     local loadingScreen = Instance.new("ScreenGui")
     loadingScreen.Name = "LoadingScreen"
-    loadingScreen.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"
+    loadingScreen.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
     -- Create the ball
     local ball = Instance.new("Frame")
