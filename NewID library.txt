@@ -1,76 +1,57 @@
--- Create a variable to hold the NewID object
-local NewID = {
-    Gui = nil -- Initialize Gui property
-}
+-- Create a new GUI
+local NewID = {}
+NewID.Gui = {}
 
--- Create a function to create the draggable GUI
-function NewID.CreateGui()
-    -- Check if the GUI already exists
-    if NewID.Gui then
-        warn("The GUI already exists. Please close it before creating a new one.")
-        return
-    end
+function NewID.Gui:new()
+    local ScreenGui = Instance.new("ScreenGui")
+    local Frame = Instance.new("Frame")
+    
+    -- Set properties for the ScreenGui
+    ScreenGui.Name = "DraggableGUI"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    -- Create a new ScreenGui
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "BlackGui"
-    screenGui.ResetOnSpawn = false
-    screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    -- Set properties for the Frame
+    Frame.Name = "MainFrame"
+    Frame.Size = UDim2.new(0, 200, 0, 100) -- Width and Height
+    Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black
+    Frame.Position = UDim2.new(0.5, -100, 0.5, -50) -- Centered
+    Frame.Parent = ScreenGui
 
-    -- Create a new Frame
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 200, 0, 100) -- Small size (200x100 pixels)
-    frame.Position = UDim2.new(0.5, -100, 0.5, -50) -- Centered on screen
-    frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black color
-    frame.Parent = screenGui
-
-    -- Optional: Add a UICorner for rounded edges
-    local uiCorner = Instance.new("UICorner")
-    uiCorner.CornerRadius = UDim.new(0, 10) -- Rounded edges
-    uiCorner.Parent = frame
-
-    -- Make the frame draggable
-    local dragging
-    local dragInput
-    local startPos
+    -- Draggable functionality
+    local dragToggle = nil
+    local dragStart = nil
+    local startPos = nil
 
     local function update(input)
-        local delta = input.Position - startPos
-        frame.Position = UDim2.new(frame.Position.X.Scale, frame.Position.X.Offset + delta.X, frame.Position.Y.Scale, frame.Position.Y.Offset + delta.Y)
+        local delta = input.Position - dragStart
+        Frame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
     end
 
-    frame.InputBegan:Connect(function(input)
+    Frame.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            startPos = input.Position
+            dragToggle = true
+            dragStart = input.Position
+            startPos = Frame.Position
 
             input.Changed:Connect(function()
                 if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
+                    dragToggle = false
                 end
             end)
         end
     end)
 
-    frame.InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            dragInput = input
+    Frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            if dragToggle then
+                update(input)
+            end
         end
     end)
-
-    game:GetService("UserInputService").InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
-            update(input)
-        end
-    end)
-
-    -- Set the NewID.Gui to the created ScreenGui
-    NewID.Gui = screenGui
-end
-
--- Create a function to set the Gui
-function NewID.SetGui(value)
-    if value == "New" then
-        NewID.CreateGui()
-    end
 end
