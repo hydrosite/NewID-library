@@ -11,7 +11,7 @@ function NewID.Gui:new()
     local ball = Instance.new("Frame")
     ball.Size = UDim2.new(0, 50, 0, 50)
     ball.Position = UDim2.new(0.5, -25, 0.5, 200) -- Start below the center
-    ball.BackgroundColor3 = Color3.fromRGB(255, 165, 0) -- Dark Orange color
+    ball.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black color
     ball.AnchorPoint = Vector2.new(0.5, 0.5)
     ball.Parent = loadingScreen
 
@@ -28,7 +28,8 @@ function NewID.Gui:new()
     loadingText.Parent = loadingScreen
 
     -- Ball animation to roll to the center
-    ball:TweenPosition(UDim2.new(0.5, -25, 0.5, -25), "Out", "Bounce", 1, true)
+    local targetPosition = UDim2.new(0.5, -25, 0.5, -25)
+    ball:TweenPosition(targetPosition, "Out", "Bounce", 1, true)
     
     wait(1) -- Wait for the ball to reach the center
 
