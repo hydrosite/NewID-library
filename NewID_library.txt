@@ -33,7 +33,7 @@ function NewID.Gui:new()
 
     -- Create the loading text
     local loadingText = Instance.new("TextLabel")
-    loadingText.Size = UDim2.new(0, 400, 0, 100) -- Adjusted width
+    loadingText.Size = UDim2.new(0, 200, 0, 100) -- Adjusted width
     loadingText.Position = UDim2.new(0.5, -200, 0.5, -50) -- Center the text above the ball
     loadingText.Text = "NewID"
     loadingText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black color
