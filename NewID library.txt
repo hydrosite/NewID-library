@@ -55,3 +55,6 @@ function NewID.Gui:new()
         end
     end)
 end
+
+-- Return the NewID library
+return NewID
