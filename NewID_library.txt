@@ -36,7 +36,7 @@ function NewID.Gui:new()
     loadingText.Size = UDim2.new(0, 400, 0, 100) -- Adjusted width
     loadingText.Position = UDim2.new(0.5, -200, 0.5, -50) -- Center the text above the ball
     loadingText.Text = "NewID"
-    loadingText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Dark Orange color
+    loadingText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black color
     loadingText.Font = Enum.Font.GothamBold -- Set to Gotham Bold font
     loadingText.TextScaled = true
     loadingText.BackgroundTransparency = 1
@@ -62,6 +62,8 @@ function NewID.Gui:new()
 
     -- Transition to text
     ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.5, true) -- Shrink the ball
+
+    -- Show the loading text and shadow after the ball is gone
     loadingText.Visible = true -- Show the loading text
     loadingText:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true) -- Expand text
     loadingText:TweenPosition(UDim2.new(0.5, -200, 0.5, -50), "Out", "Quad", 0.5, true) -- Center text
