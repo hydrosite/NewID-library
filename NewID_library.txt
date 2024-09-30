@@ -43,16 +43,7 @@ function NewID.Gui:new()
     loadingText.Visible = false -- Hide the text initially
     loadingText.Parent = loadingScreen
 
-    -- Create a shadow effect for the text
-    local shadow = Instance.new("TextLabel")
-    shadow.Size = UDim2.new(1, 0, 1, 0) -- Fill the loading text
-    shadow.Position = UDim2.new(0, 2, 0, 2) -- Offset for shadow effect
-    shadow.Text = loadingText.Text
-    shadow.TextColor3 = Color3.fromRGB(50, 50, 50) -- Dark gray shadow color
-    shadow.Font = loadingText.Font
-    shadow.TextScaled = true
-    shadow.BackgroundTransparency = 1
-    shadow.Parent = loadingScreen
+\\
 
     -- Ball animation to roll to the center
     local targetPosition = UDim2.new(0.5, -25, 0.5, 0) -- Target position in the middle
