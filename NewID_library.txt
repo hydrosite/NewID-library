@@ -25,23 +25,36 @@ function NewID.Gui:new()
     letterN.Size = UDim2.new(1, 0, 1, 0) -- Fill the ball
     letterN.Position = UDim2.new(0, 0, 0, 0) -- Center in the ball
     letterN.Text = "N"
-    letterN.TextColor3 = Color3.fromRGB(51, 51, 51) -- White color
+    letterN.TextColor3 = Color3.fromRGB(255, 87, 51 ) -- White color
     letterN.Font = Enum.Font.Creepster -- Bold font
     letterN.TextScaled = true
     letterN.BackgroundTransparency = 1
     letterN.Parent = ball
 
-    -- Create the loading text
-    local loadingText = Instance.new("TextLabel")
-    loadingText.Size = UDim2.new(0, 200, 0, 100) -- Adjusted width
-    loadingText.Position = UDim2.new(0.5, -200, 0.5, -50) -- Center the text above the ball
-    loadingText.Text = "NewID"
-    loadingText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black color
-    loadingText.Font = Enum.Font.Creepster -- Set to Gotham Bold font
-    loadingText.TextScaled = true
-    loadingText.BackgroundTransparency = 1
-    loadingText.Visible = false -- Hide the text initially
-    loadingText.Parent = loadingScreen
+-- Create the loading text
+local loadingTextNew = Instance.new("TextLabel")
+loadingTextNew.Size = UDim2.new(0, 100, 0, 100) -- Adjusted width for "New"
+loadingTextNew.Position = UDim2.new(0.5, -100, 0.5, -50) -- Center the text above the ball
+loadingTextNew.Text = "New"
+loadingTextNew.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black color for "New"
+loadingTextNew.Font = Enum.Font.Creepster -- Creepster font
+loadingTextNew.TextScaled = true
+loadingTextNew.BackgroundTransparency = 1
+loadingTextNew.Visible = false -- Hide the text initially
+loadingTextNew.Parent = loadingScreen
+
+-- Create the loading text for "ID"
+local loadingTextID = Instance.new("TextLabel")
+loadingTextID.Size = UDim2.new(0, 100, 0, 100) -- Adjusted width for "ID"
+loadingTextID.Position = UDim2.new(0.5, 0, 0.5, -50) -- Center "ID" next to "New"
+loadingTextID.Text = "ID"
+loadingTextID.TextColor3 = Color3.fromRGB(255, 140, 0) -- Dark Orange color for "ID"
+loadingTextID.Font = Enum.Font.Creepster -- Creepster font
+loadingTextID.TextScaled = true
+loadingTextID.BackgroundTransparency = 1
+loadingTextID.Visible = false -- Hide the text initially
+loadingTextID.Parent = loadingScreen
+
 
     -- Ball animation to roll to the center
     local targetPosition = UDim2.new(0.5, -25, 0.5, 0) -- Target position in the middle
