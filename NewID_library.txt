@@ -17,11 +17,11 @@ function NewID.Gui:new()
     textLabel.BackgroundTransparency = 1
     textLabel.Text = "NewID"
     textLabel.TextSize = 8
-    textLabel.TextColor3 = Color3.fromRGB( 54, 69, 79) -- Intense dark orange
+    textLabel.TextColor3 = Color3.fromRGB( 0, 0, 0) -- Intense dark orange
     textLabel.TextScaled = true
     textLabel.Font = Enum.Font.Creepster -- Cool hood-style font
     textLabel.TextStrokeTransparency = 0
-    textLabel.TextStrokeColor3 = Color3.fromRGB(255, 215,  0) -- Black outline
+    textLabel.TextStrokeColor3 = Color3.fromRGB(128, 0,  0) -- Black outline
 
     -- Tween service for animation
     local TweenService = game:GetService("TweenService")
