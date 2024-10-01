@@ -2,61 +2,104 @@ local NewID = {}
 NewID.Gui = {}
 
 function NewID.Gui:new()
-   
-    -- Create the main GUI
-    local ScreenGui = Instance.new("ScreenGui")
-    local Frame = Instance.new("Frame")
+    local player = game.Players.LocalPlayer
+    local PlayerGui = player:WaitForChild("PlayerGui")
 
-    ScreenGui.Name = "DraggableGUI"
-    ScreenGui.ResetOnSpawn = false
-    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    -- Create the loading screen with animation
+    local loadingScreen = Instance.new("ScreenGui")
+    local textLabel = Instance.new("TextLabel")
+    loadingScreen.Name = "LoadingScreen"
+    loadingScreen.Parent = PlayerGui
 
-    Frame.Name = "MainFrame"
-    Frame.Size = UDim2.new(0, 200, 0, 100)
-    Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    Frame.Position = UDim2.new(0.5, -100, 0.5, -50)
-    Frame.Parent = ScreenGui
+    textLabel.Parent = loadingScreen
+    textLabel.Size = UDim2.new(0, 0, 0, 0)
+    textLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+    textLabel.BackgroundTransparency = 1
+    textLabel.Text = "NewID"
+    textLabel.TextColor3 = Color3.fromRGB(255, 85, 0) -- Intense dark orange
+    textLabel.TextScaled = true
+    textLabel.Font = Enum.Font.GothamBlack -- Cool hood-style font
+    textLabel.TextStrokeTransparency = 0
+    textLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0) -- Black outline
 
-    -- Draggable functionality
-    local dragToggle = nil
-    local dragSpeed = 0.2
-    local dragStart = nil
-    local startPos = nil
+    -- Tween service for animation
+    local TweenService = game:GetService("TweenService")
+    local growTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
+    local shakeTweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out, 6, true) -- Quick shake
+    
+    -- First, zoom in the text label
+    local growTween = TweenService:Create(textLabel, growTweenInfo, {Size = UDim2.new(0, 600, 0, 150), Position = UDim2.new(0.5, -300, 0.5, -75)})
+    
+    -- Then, apply a shake effect
+    local shakeTween = TweenService:Create(textLabel, shakeTweenInfo, {Position = UDim2.new(0.5, -295, 0.5, -75)})
+    
+    -- Fade out to give it an ending hood style
+    local fadeOutTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+    local fadeOutTween = TweenService:Create(textLabel, fadeOutTweenInfo, {TextTransparency = 1})
 
-    local function update(input)
-        local delta = input.Position - dragStart
-        Frame.Position = UDim2.new(
-            startPos.X.Scale,
-            startPos.X.Offset + delta.X,
-            startPos.Y.Scale,
-            startPos.Y.Offset + delta.Y
-        )
-    end
+    -- Play the animation sequence
+    growTween:Play()
+    growTween.Completed:Connect(function()
+        shakeTween:Play()
+        shakeTween.Completed:Connect(function()
+            fadeOutTween:Play()
+            fadeOutTween.Completed:Wait()
 
-    Frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragToggle = true
-            dragStart = input.Position
-            startPos = Frame.Position
+            -- Now create the draggable GUI after the animation finishes
+            local ScreenGui = Instance.new("ScreenGui")
+            local Frame = Instance.new("Frame")
 
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragToggle = false
+            ScreenGui.Name = "DraggableGUI"
+            ScreenGui.ResetOnSpawn = false
+            ScreenGui.Parent = PlayerGui
+
+            Frame.Name = "MainFrame"
+            Frame.Size = UDim2.new(0, 200, 0, 100)
+            Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            Frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+            Frame.Parent = ScreenGui
+
+            -- Draggable functionality
+            local dragToggle = nil
+            local dragStart = nil
+            local startPos = nil
+
+            local function update(input)
+                local delta = input.Position - dragStart
+                Frame.Position = UDim2.new(
+                    startPos.X.Scale,
+                    startPos.X.Offset + delta.X,
+                    startPos.Y.Scale,
+                    startPos.Y.Offset + delta.Y
+                )
+            end
+
+            Frame.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    dragToggle = true
+                    dragStart = input.Position
+                    startPos = Frame.Position
+
+                    input.Changed:Connect(function()
+                        if input.UserInputState == Enum.UserInputState.End then
+                            dragToggle = false
+                        end
+                    end)
                 end
             end)
-        end
-    end)
 
-    Frame.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then
-            if dragToggle then
-                update(input)
-            end
-        end
-    end)
+            Frame.InputChanged:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseMovement then
+                    if dragToggle then
+                        update(input)
+                    end
+                end
+            end)
 
-    -- Remove the loading screen after the animation
-    loadingScreen:Destroy()
+            -- Remove the loading screen after the animation
+            loadingScreen:Destroy()
+        end)
+    end)
 end
 
 return NewID
