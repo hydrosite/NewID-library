@@ -2,63 +2,7 @@ local NewID = {}
 NewID.Gui = {}
 
 function NewID.Gui:new()
-    -- Create the loading screen
-    local loadingScreen = Instance.new("ScreenGui")
-    loadingScreen.Name = "LoadingScreen"
-    loadingScreen.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
-    -- Create the ball
-    local ball = Instance.new("Frame")
-    ball.Size = UDim2.new(0, 50, 0, 50) -- Size of the ball
-    ball.Position = UDim2.new(1, -25, 0.5, 0) -- Start from the right side of the screen
-    ball.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black color
-    ball.AnchorPoint = Vector2.new(0.5, 0.5)
-    ball.Parent = loadingScreen
-
-    -- Create a UICorner to make the ball circular
-    local uicorner = Instance.new("UICorner")
-    uicorner.CornerRadius = UDim.new(0.5, 0) -- Make the ball circular
-    uicorner.Parent = ball
-
-    -- Add the letter "N" to the ball
-    local letterN = Instance.new("TextLabel")
-    letterN.Size = UDim2.new(1, 0, 1, 0) -- Fill the ball
-    letterN.Position = UDim2.new(0, 0, 0, 0) -- Center in the ball
-    letterN.Text = "N"
-    letterN.TextColor3 = Color3.fromRGB(255, 255, 255) -- White color
-    letterN.Font = Enum.Font.SourceSansBold -- Bold font
-    letterN.TextScaled = true
-    letterN.BackgroundTransparency = 1
-    letterN.Parent = ball
-
-    -- Create the loading text
-    local loadingText = Instance.new("TextLabel")
-    loadingText.Size = UDim2.new(0, 400, 0, 100) -- Adjusted width
-    loadingText.Position = UDim2.new(0.5, -200, 0.5, -50) -- Center the text above the ball
-    loadingText.Text = "NewID"
-    loadingText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black color
-    loadingText.Font = Enum.Font.GothamBold -- Set to Gotham Bold font
-    loadingText.TextScaled = true
-    loadingText.BackgroundTransparency = 1
-    loadingText.Visible = false -- Hide the text initially
-    loadingText.Parent = loadingScreen
-
-    -- Ball animation to roll to the center
-    local targetPosition = UDim2.new(0.5, -25, 0.5, 0) -- Target position in the middle
-    ball:TweenPosition(targetPosition, "Out", "Bounce", 1, true)
-
-    wait(1) -- Wait for the ball to reach the center
-
-    -- Transition to text
-    ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.5, true) -- Shrink the ball
-
-    -- Show the loading text after the ball is gone
-    loadingText.Visible = true -- Show the loading text
-    loadingText:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true) -- Expand text
-    loadingText:TweenPosition(UDim2.new(0.5, -200, 0.5, -50), "Out", "Quad", 0.5, true) -- Center text
-
-    wait(1) -- Wait for the text transition to finish
-
+   
     -- Create the main GUI
     local ScreenGui = Instance.new("ScreenGui")
     local Frame = Instance.new("Frame")
