@@ -11,29 +11,30 @@ function NewID.Gui:new()
     loadingScreen.Name = "LoadingScreen"
     loadingScreen.Parent = PlayerGui
 
+    -- Configure the text label
     textLabel.Parent = loadingScreen
-    textLabel.Size = UDim2.new(0, 0, 0, 0)
-    textLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+    textLabel.Size = UDim2.new(0, 600, 0, 150)  -- Fixed size for text to fit
+    textLabel.Position = UDim2.new(0.5, -300, 0.5, -75)
     textLabel.BackgroundTransparency = 1
-    textLabel.Text = "NewID"
-    textLabel.TextSize = 2
-    textLabel.TextColor3 = Color3.fromRGB( 0, 0, 0) -- Intense dark orange
-    textLabel.TextScaled = true
-    textLabel.Font = Enum.Font.Creepster -- Cool hood-style font
-    textLabel.TextStrokeTransparency = 0
-    textLabel.TextStrokeColor3 = Color3.fromRGB(128, 0,  0) -- Black outline
+    textLabel.Text = "NewID Library"
+    textLabel.TextSize = 35
+    textLabel.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Black text
+    textLabel.TextScaled = false
+    textLabel.Font = Enum.Font.Creepster  -- Cool hood-style font
+    textLabel.TextStrokeTransparency = 0  -- Set stroke visibility
+    textLabel.TextStrokeColor3 = Color3.fromRGB(63, 63, 63)  -- Stroke color
 
     -- Tween service for animation
     local TweenService = game:GetService("TweenService")
     local growTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
     local shakeTweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out, 6, true) -- Quick shake
-    
+
     -- First, zoom in the text label
     local growTween = TweenService:Create(textLabel, growTweenInfo, {Size = UDim2.new(0, 600, 0, 150), Position = UDim2.new(0.5, -300, 0.5, -75)})
-    
+
     -- Then, apply a shake effect
     local shakeTween = TweenService:Create(textLabel, shakeTweenInfo, {Position = UDim2.new(0.5, -295, 0.5, -75)})
-    
+
     -- Fade out to give it an ending hood style
     local fadeOutTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
     local fadeOutTween = TweenService:Create(textLabel, fadeOutTweenInfo, {TextTransparency = 1})
@@ -102,5 +103,7 @@ function NewID.Gui:new()
         end)
     end)
 end
+
+NewID.Gui:new()
 
 return NewID
