@@ -7,90 +7,109 @@ function NewID.Gui:new()
     loadingScreen.Name = "LoadingScreen"
     loadingScreen.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    -- Background color (soft gradient)
-    loadingScreen.BackgroundColor3 = Color3.fromRGB(40, 44, 52)
-
     -- Create the ball
     local ball = Instance.new("Frame")
-    ball.Size = UDim2.new(0, 70, 0, 70) -- Larger size for better visibility
-    ball.Position = UDim2.new(1, -35, 0.5, 0) -- Start from the right side
-    ball.BackgroundColor3 = Color3.fromRGB(25, 25, 25) -- Darker ball color
+    ball.Size = UDim2.new(0, 50, 0, 50) -- Size of the ball
+    ball.Position = UDim2.new(1, -25, 0.5, 0) -- Start from the right side of the screen
+    ball.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Black color
     ball.AnchorPoint = Vector2.new(0.5, 0.5)
     ball.Parent = loadingScreen
 
     -- Create a UICorner to make the ball circular
     local uicorner = Instance.new("UICorner")
-    uicorner.CornerRadius = UDim.new(1, 0) -- Perfectly circular ball
+    uicorner.CornerRadius = UDim.new(0.5, 0) -- Make the ball circular
     uicorner.Parent = ball
-
-    -- Glowing effect around the ball
-    local uiGradient = Instance.new("UIGradient")
-    uiGradient.Color = ColorSequence.new{
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(50, 50, 50)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 0))
-    }
-    uiGradient.Rotation = 90
-    uiGradient.Parent = ball
 
     -- Add the letter "N" to the ball
     local letterN = Instance.new("TextLabel")
-    letterN.Size = UDim2.new(1, 0, 1, 0)
-    letterN.Position = UDim2.new(0, 0, 0, 0)
+    letterN.Size = UDim2.new(1, 0, 1, 0) -- Fill the ball
+    letterN.Position = UDim2.new(0, 0, 0, 0) -- Center in the ball
     letterN.Text = "N"
-    letterN.TextColor3 = Color3.fromRGB(240, 128, 128) -- Softer, more modern red
-    letterN.Font = Enum.Font.GothamBlack -- Sleek, modern font
+    letterN.TextColor3 = Color3.fromRGB(255, 255, 255) -- White color
+    letterN.Font = Enum.Font.SourceSansBold -- Bold font
     letterN.TextScaled = true
     letterN.BackgroundTransparency = 1
     letterN.Parent = ball
 
-    -- Create the loading text for "New"
-    local loadingTextNew = Instance.new("TextLabel")
-    loadingTextNew.Size = UDim2.new(0, 120, 0, 60)
-    loadingTextNew.Position = UDim2.new(0.5, -60, 0.5, -90) -- Slightly above the ball
-    loadingTextNew.Text = "New"
-    loadingTextNew.TextColor3 = Color3.fromRGB(255, 255, 255) -- Clean white text
-    loadingTextNew.Font = Enum.Font.GothamBlack
-    loadingTextNew.TextScaled = true
-    loadingTextNew.BackgroundTransparency = 1
-    loadingTextNew.Visible = false -- Hidden initially
-    loadingTextNew.Parent = loadingScreen
+    -- Create the loading text
+    local loadingText = Instance.new("TextLabel")
+    loadingText.Size = UDim2.new(0, 400, 0, 100) -- Adjusted width
+    loadingText.Position = UDim2.new(0.5, -200, 0.5, -50) -- Center the text above the ball
+    loadingText.Text = "NewID"
+    loadingText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black color
+    loadingText.Font = Enum.Font.GothamBold -- Set to Gotham Bold font
+    loadingText.TextScaled = true
+    loadingText.BackgroundTransparency = 1
+    loadingText.Visible = false -- Hide the text initially
+    loadingText.Parent = loadingScreen
 
-    -- Create the loading text for "ID"
-    local loadingTextID = Instance.new("TextLabel")
-    loadingTextID.Size = UDim2.new(0, 120, 0, 60)
-    loadingTextID.Position = UDim2.new(0.5, -60, 0.5, 20) -- Below the "New" text
-    loadingTextID.Text = "ID"
-    loadingTextID.TextColor3 = Color3.fromRGB(135, 206, 250) -- Light blue for a modern touch
-    loadingTextID.Font = Enum.Font.GothamBlack
-    loadingTextID.TextScaled = true
-    loadingTextID.BackgroundTransparency = 1
-    loadingTextID.Visible = false -- Hidden initially
-    loadingTextID.Parent = loadingScreen
+    -- Ball animation to roll to the center
+    local targetPosition = UDim2.new(0.5, -25, 0.5, 0) -- Target position in the middle
+    ball:TweenPosition(targetPosition, "Out", "Bounce", 1, true)
 
-    -- Ball animation to slide smoothly to the center
-    local targetPosition = UDim2.new(0.5, -35, 0.5, 0)
-    ball:TweenPosition(targetPosition, "Out", "Quad", 1.2, true) -- Smoother animation
+    wait(1) -- Wait for the ball to reach the center
 
-    wait(1.2) -- Wait for the ball to reach the center
+    -- Transition to text
+    ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.5, true) -- Shrink the ball
 
-    -- Transition to text by shrinking the ball
-    ball:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.7, true)
+    -- Show the loading text after the ball is gone
+    loadingText.Visible = true -- Show the loading text
+    loadingText:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true) -- Expand text
+    loadingText:TweenPosition(UDim2.new(0.5, -200, 0.5, -50), "Out", "Quad", 0.5, true) -- Center text
 
-    -- Wait for the ball to shrink
-    wait(0.7)
+    wait(1) -- Wait for the text transition to finish
 
-    -- Show the loading text after the ball animation
-    loadingTextNew.Visible = true
-    loadingTextID.Visible = true
+    -- Create the main GUI
+    local ScreenGui = Instance.new("ScreenGui")
+    local Frame = Instance.new("Frame")
 
-    -- Smooth fade-in and expand the text
-    loadingTextNew:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true)
-    loadingTextNew:TweenPosition(UDim2.new(0.5, -200, 0.5, -70), "Out", "Quad", 0.5, true)
+    ScreenGui.Name = "DraggableGUI"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    loadingTextID:TweenSize(UDim2.new(0, 400, 0, 100), "Out", "Quad", 0.5, true)
-    loadingTextID:TweenPosition(UDim2.new(0.5, -200, 0.5, 30), "Out", "Quad", 0.5, true)
+    Frame.Name = "MainFrame"
+    Frame.Size = UDim2.new(0, 200, 0, 100)
+    Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+    Frame.Parent = ScreenGui
 
-    wait(1) -- Wait for the text animation to finish
+    -- Draggable functionality
+    local dragToggle = nil
+    local dragSpeed = 0.2
+    local dragStart = nil
+    local startPos = nil
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        Frame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+
+    Frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragToggle = true
+            dragStart = input.Position
+            startPos = Frame.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragToggle = false
+                end
+            end)
+        end
+    end)
+
+    Frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            if dragToggle then
+                update(input)
+            end
+        end
+    end)
 
     -- Remove the loading screen after the animation
     loadingScreen:Destroy()
