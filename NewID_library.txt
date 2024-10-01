@@ -16,7 +16,7 @@ function NewID.Gui:new()
     textLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
     textLabel.BackgroundTransparency = 1
     textLabel.Text = "NewID"
-    textLabel.TextSize = 8
+    textLabel.TextSize = 2
     textLabel.TextColor3 = Color3.fromRGB( 0, 0, 0) -- Intense dark orange
     textLabel.TextScaled = true
     textLabel.Font = Enum.Font.Creepster -- Cool hood-style font
